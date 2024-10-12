@@ -146,7 +146,15 @@ def editorData2222121222():
     
     if 'comment' in data:
         userdata[int(data['id'])]['comment']=data['comment']
-
+        print(' commmmmmmmmmmmmmmentt ',userdata)
+        
+        if flag!='':
+            userdatastr=str(userdata)
+            cursor.execute("update  user  set  data=? where name =?",(userdatastr,ttt)) 
+            conn.commit()
+        
+        
+        
     if 'id' in data:
         return jsonify(userdata[int(data['id'])])
         
