@@ -271,14 +271,13 @@ console.log("接受到的foodlist")
     })
     console.log('写入数据库')
     fetch('food/order', {
-      order: this.data.cartList
+      order: this.data.cartList,
+      uid:getApp().globalData.userid
     }, 'POST').then(data => { // order_id 是后端给前端生成的.
       wx.navigateTo({
         url: '/pages/checkout/checkout?order_id=' + data.order_id
       })
       // console.log(data.order_id)
-    }, () => {
-      this.order()
     })
   }
 })

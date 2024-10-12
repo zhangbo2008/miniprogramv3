@@ -10,6 +10,14 @@ from io import BytesIO
 import os
 print(os.cpu_count(), 'cpushuliaing')
 
+import  sqlite3
+
+conn=sqlite3.connect('test.db',check_same_thread=False)
+cursor=conn.cursor()
+cursor.execute('create table if not exists user(id INTEGER PRIMARY KEY,name TEXT, data TEXT)')
+conn.commit()
+
+
 
 
 from flask import Flask, jsonify, request, render_template
@@ -29,10 +37,23 @@ userdata=[]
 
 @app.route('/food/record', methods=['GET', 'POST'])
 def editorData222212112112333312312222():
-    a=request.json
-    print(a)
-    print(a['id'])
-    if a['id'] :
+    data=request.json
+    print('32432423423423',data)
+    ttt=data["uid"].replace('-','_')
+    tt=f"SELECT * FROM user WHERE name = '{ttt}'"
+    print(tt)
+    cursor.execute(tt)
+    res=cursor.fetchall()
+    print(res,"rrrrrreeeeeeeeeeesssssssssss")
+    if res:
+        userdata=eval(res[0][2])
+        print(userdata)
+        print(type(userdata))
+        flag='cunzai'
+    else:
+        flag='new'
+        userdata=[]
+    if data['uid'] :
         tmp=[]
         for i in userdata:
             if 'payed' in i:
@@ -59,17 +80,65 @@ import time,datetime
 def editorData22221211212312222():
     print(request.json,'拿到的数据')
     data=request.json
+    
+    #=============这段是读取数据的套路模板
+    data=request.json
+    print('32432423423423',data)
+    ttt=data["uid"].replace('-','_')
+    tt=f"SELECT * FROM user WHERE name = '{ttt}'"
+    print(tt)
+    cursor.execute(tt)
+    res=cursor.fetchall()
+    print(res,"rrrrrreeeeeeeeeeesssssssssss")
+    if res:
+        userdata=eval(res[0][2])
+        print(userdata)
+        print(type(userdata))
+        flag='cunzai'
+    else:
+        flag='new'
+        userdata=[]
+    # =======套路模板结束
+        
+        
     userdata[int(data['id'])]['paytime']= time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     if 'id' in data:
         userdata[int(data['id'])]['payed']=1
+        #=======写入数据:
+        userdatastr=str(userdata)
+        cursor.execute("update  user  set  data=? where name =?",(userdatastr,ttt)) 
+        conn.commit()
+        
+        
         return jsonify(userdata[int(data['id'])])
     # return jsonify(lastorder)
 
 
 @app.route('/food/order', methods=['GET', 'POST'])
 def editorData2222121222():
-    print("当前用户数据的数量",len(userdata))
-    print("当前用户数据",(userdata))
+    # print("当前用户数据的数量",len(userdata))
+    # print("当前用户数据",(userdata))
+    print("查询",)
+    data=request.json
+    print('32432423423423',data)
+    ttt=data["uid"].replace('-','_')
+    tt=f"SELECT * FROM user WHERE name = '{ttt}'"
+    print(tt)
+    cursor.execute(tt)
+    res=cursor.fetchall()
+    print(res,"rrrrrreeeeeeeeeeesssssssssss")
+    # print(res[0][2],"shujushi!!!!!!!!!!!")
+    
+    #==读取数据库:
+    if res:
+        userdata=eval(res[0][2])
+        print(userdata)
+        print(type(userdata))
+        flag='cunzai'
+    else:
+        flag='new'
+        userdata=[]
+    print(99999999999999999999)
     global lastorder
 
     data=request.json
@@ -95,7 +164,17 @@ def editorData2222121222():
     data['price']=p
     data['order_id']=len(userdata) #计算索引.
 
-    userdata.append(data)
+    userdata.append(data) # 写入数据库!!!!!!!!!!!!
+    userdata=str(userdata)
+    print('字符串化数据',userdata)
+    if flag=='new':
+        print(f"INSERT INTO user (name, data) VALUES ('{ttt}', '{userdata}')")
+        cursor.execute("INSERT INTO user (name, data) VALUES (?,?)",(ttt,userdata)) 
+        conn.commit()
+    if flag!='':
+        cursor.execute("update  user  set  data=? where name =?",(userdata,ttt)) 
+        conn.commit()
+    
     print(1111111,data)
     # print('sdaflkasdjflk;asdjflk',data)
     return jsonify(data)

@@ -19,7 +19,7 @@ Page({
     console.log(8888888888888888888888888,getApp().globalData['userinfo'])
     // 获取消费记录
     fetch('food/record'
-    ,{id: getApp().globalData['userid']},"POST"
+    ,{uid: getApp().globalData['userid']},"POST"
     
     ).then(data => {
       wx.hideLoading()

@@ -14,6 +14,7 @@ Page({
     })
     fetch('food/order', {
       id,
+      uid:getApp().globalData.userid
     },"POST").then(data => {
       this.setData(data)
       wx.hideLoading()

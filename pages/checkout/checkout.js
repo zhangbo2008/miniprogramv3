@@ -14,7 +14,8 @@ Page({
     })
     console.log('checkout.js',id)
     fetch('food/order', {
-      id
+      id,
+      uid:getApp().globalData.userid
     },"POST").then(data => {
       console.log(32432432423423432,)
       this.setData({order_food:data['order'],price:data['price'],id:data['order_id']})
@@ -39,11 +40,13 @@ Page({
     console.log(9999999999999999999999999999999)
     fetch('food/order', {
       id,
+      uid:getApp().globalData.userid,
       comment: this.data.comment
     }, 'POST').then(data => {
       console.log(data,3729473892748923743289472389472389472389472389472938)
       return fetch('food/pay', {
-        id
+        id,
+        uid:getApp().globalData.userid
       }, 'POST')
     }).then(data => {
       console.log(8888888888888888888)
