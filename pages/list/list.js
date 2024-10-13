@@ -55,9 +55,8 @@ console.log("接受到的foodlist")
         })
         query.exec()
         console.log('类别的高度',categoryHeight)
-      })
-    }, () => {
-      this.onLoad()
+      }
+      )
     })
     this.shopcartAnimate = shopcartAnimate('.cart-icon', this)
   },
@@ -68,6 +67,7 @@ console.log("接受到的foodlist")
 
 
   tapCategory: function(e) {
+    console.log('点击cat之前的类别高度',categoryHeight)
       console.log(e,1111111111111111111111111)
     var index = e.currentTarget.dataset.index
     // console.log(111111111,index)
@@ -293,7 +293,20 @@ console.log("接受到的foodlist")
     }
     console.log(tmplist,33333333333)
     this.setData(
-{foodList:tmplist}
+{foodList:tmplist},() => {//setData,后一个参数是这个回调函数. 用来更新这个categoryHeight值. // 2024-10-13,22点14 新加的细节! , 现在这个版本可以加入筛选条件后, 点击类别仍然可以跳转. 原理就是下面写的setData的回调每次都从新计算category的高度,让cat可以定位右边的滚动代码.
+  var query = wx.createSelectorQuery()
+  var top = 0
+  query.select('.food').boundingClientRect(rect => {
+    top = rect.top
+  })
+  query.selectAll('.food-category').boundingClientRect(res => {
+    res.forEach(rect => {
+      categoryHeight[rect.id.substring(rect.id.indexOf('_') + 1)] = rect.top - top
+    })
+  })
+  query.exec()
+  console.log('修改搜索后的类别的高度',categoryHeight)
+}
 
     )
     if (sousuokey==''){
@@ -303,7 +316,20 @@ console.log("接受到的foodlist")
 
         {foodList:this.data.allfoodList}
         
-            )
+            ),() => {//setData,后一个参数是这个回调函数. 用来更新这个categoryHeight值.
+              var query = wx.createSelectorQuery()
+              var top = 0
+              query.select('.food').boundingClientRect(rect => {
+                top = rect.top
+              })
+              query.selectAll('.food-category').boundingClientRect(res => {
+                res.forEach(rect => {
+                  categoryHeight[rect.id.substring(rect.id.indexOf('_') + 1)] = rect.top - top
+                })
+              })
+              query.exec()
+              console.log('修改搜索后的类别的高度',categoryHeight)
+            }
     }
     
 
