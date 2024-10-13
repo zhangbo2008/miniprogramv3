@@ -8,6 +8,7 @@ Page({
     activeIndex: 0,
     tapIndex: 0,
     foodList: '',
+    allfoodList:'',  //用来保存一开始从后端拿到的全列表.
     cartList: {   },
       cartPrice: 0,
       cartNumber: 0,
@@ -36,9 +37,10 @@ Page({
       }
 console.log("接受到的foodlist")
       console.log(data.list)
-      //把data.list放入网页中.
+      //把data.list放入网页中. 这个地方要注意深拷贝!!!!!!!!!!
       this.setData({
         foodList: data.list,
+        allfoodList:data.list.concat(),
         promotion: data.promotion[0]
       }, () => {//setData,后一个参数是这个回调函数. 用来更新这个categoryHeight值.
         var query = wx.createSelectorQuery()
@@ -262,6 +264,55 @@ console.log("接受到的foodlist")
       showCart: false
     })
   },
+  sousuo: function(e){
+    console.log("搜索什么!!!!!!!!!",e.detail.value) //拿到搜索结果.
+    var sousuokey=e.detail.value
+    console.log(this.data.foodList) //这种不复杂的二重for循环放在前端算是最快的.尽量少网络请求.
+    var fl=this.data.allfoodList
+    var tmplist=[]
+    for (var i in fl){
+      tmplist.push({'name':fl[i]['name']})
+    }
+    for (var i in fl){
+      console.log('debug1',i)
+      console.log(fl[i])
+      var j=fl[i]['food']
+      console.log(j)
+      var tmp2=[]
+      for (var ii in j){
+         console.log('debug444',j,ii)
+
+         if (j[ii]['name'].includes(sousuokey)){
+           console.log('debug5',j[ii]['name'])
+           tmp2.push(j[ii])
+         }
+       }
+       console.log('dddddddddddeeeeeeeeeebbbbbbbbb',tmp2)
+       tmplist[i]['food']=tmp2
+       console.log(tmplist)
+    }
+    console.log(tmplist,33333333333)
+    this.setData(
+{foodList:tmplist}
+
+    )
+    if (sousuokey==''){
+      console.log('?????????????????????')
+      console.log(this.data.allfoodList) 
+      this.setData(
+
+        {foodList:this.data.allfoodList}
+        
+            )
+    }
+    
+
+  },
+
+
+
+
+
   order: function() {
     if (this.data.cartNumber === 0) {
       return

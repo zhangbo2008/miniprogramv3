@@ -1,8 +1,15 @@
 <!--pages/list/list.wxml-->
 <!-- 折扣信息区 -->
-<view class="discount">
-  <text class="discount-txt">减</text>满{{promotion.k}}元减{{promotion.v}}元（在线支付专享）
+<view class="search-container">
+  <view class="search-left">
+    <image src="../../images/search.png" />
+    <input type="text"     bindinput="sousuo"    placeholder="搜索"/>
+  </view>
+  <!-- <view class="search-right">
+    <image src="../../images/add.png" />
+  </view> -->
 </view>
+
 <!-- 菜单区 -->
 <view class="content" style="height:auto">
   <!-- 左侧菜单 -->
@@ -23,6 +30,7 @@
 
 
   <!-- 右侧菜单 -->
+  
   <scroll-view class="food" scroll-y scroll-with-animation scroll-into-view="category_{{tapIndex}}" bindscroll="onFoodScroll" bindscrolltolower="scrolltolower" style="height:1000rpx ; ">
     <!-- 竖直的scroll-view一定要写height属性 -->
     <view wx:for="{{foodList}}" wx:for-item="category" wx:key="id2" wx:for-index="category_id">
