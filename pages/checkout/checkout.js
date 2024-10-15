@@ -32,6 +32,21 @@ Page({
     })
   },
 
+
+
+
+  address: function () {
+    console.log(111111111111111111111)
+    wx.navigateTo({
+      url: '/pages/addressmap/addressmap',
+    })
+  },
+
+
+
+
+
+
   pay: function () {
     console.log(1)
     var id = this.data.id;
