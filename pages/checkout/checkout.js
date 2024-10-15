@@ -1,8 +1,14 @@
 const app = getApp()
 const fetch = app.fetch
-
+const chooseLocation = requirePlugin('chooseLocation');
 Page({
+  onShow() {
+    const location = chooseLocation.getLocation(); // 如果点击确认选点按钮，则返回选点结果对象，否则返回null
+    console.log('得到location',location,222222222)
+  },
   data: {
+    latitude: 39.141333,
+    longitude: 117.2334,
     comment: ''
   },
 

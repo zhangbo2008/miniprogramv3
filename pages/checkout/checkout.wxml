@@ -30,6 +30,23 @@
 			</view>
 		</view>
 	</view>
+
+
+
+
+<!-- 地图 -->
+<view class="container">
+  <map id="map"
+    class="map"
+    polyline="{{polyline}}"
+    longitude="{{longitude}}" latitude="{{latitude}}">
+  </map>
+</view>
+
+
+
+
+
 	<!-- 备注 -->
 	<view class="content-comment">
 		<label>备注</label>
