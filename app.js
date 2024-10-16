@@ -1,4 +1,4 @@
-//app.js
+//app.js   //appid: 'wxea500b1eb68275c8',
 App({
   userdata:{},
   globalData:{},

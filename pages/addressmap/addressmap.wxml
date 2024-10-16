@@ -1,15 +1,15 @@
 <!--pages/addressmap.wxml-->
 <text>选择收货地址</text>
 
-
+<!-- 
 <view class="container">
   <map id="map"
   style="width:100%;height:300px;"scale="17" 
     class="map"
-    polyline="{{polyline}}"
+    polyline="{{polyline}}" 
     longitude="{{longitude}}" latitude="{{latitude}}">
   </map>
-</view>
+</view> -->
 
 
 <view class="operate-btn" bindtap="address">确定</view>

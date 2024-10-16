@@ -34,12 +34,21 @@ Page({
 
 
 
-
+//https://lbs.qq.com/dev/console/application/mine  配置页面编辑: 里面权限勾上, 然后appid配置好. 我这个是  wxea500b1eb68275c8!!!!!
   address: function () {
-    console.log(111111111111111111111)
+    console.log(12121212)
+    const key = 'YVRBZ-W7XW7-B4UXC-HOS55-XPHE3-VJB2Q'; //使用在腾讯位置服务申请的key
+    const referer = '点餐'; //调用插件的app的名称
+    const location = JSON.stringify({
+      latitude: 39.89631551,
+      longitude: 116.323459711
+    });
+    // const category = '生活服务,娱乐休闲';
+     
     wx.navigateTo({
-      url: '/pages/addressmap/addressmap',
-    })
+      url: 'plugin://chooseLocation/index?key=' + key + '&referer=' + referer + '&location=' + location 
+      // + '&category=' + category
+    });
   },
 
 
